@@ -9,7 +9,15 @@ function TestComponent() {
   return (
     <div>
       <span data-testid="auth">{state.isAuthenticated ? 'yes' : 'no'}</span>
-      <button onClick={() => login({ idInstance: '1', apiTokenInstance: 't' })}>
+      <button
+        onClick={() =>
+          login({
+            apiUrl: 'https://1234.api.green-api.com',
+            idInstance: '1',
+            apiTokenInstance: 't',
+          })
+        }
+      >
         login
       </button>
       <button onClick={logout}>logout</button>

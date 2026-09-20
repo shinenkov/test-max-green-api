@@ -54,12 +54,17 @@ describe('LoginPage', () => {
     });
 
     renderPage();
+    await userEvent.type(
+      screen.getByLabelText(/API URL/i),
+      'https://1234.api.green-api.com'
+    );
     await userEvent.type(screen.getByLabelText(/idInstance/i), '1101000000');
     await userEvent.type(screen.getByLabelText(/apiTokenInstance/i), 'a'.repeat(30));
     await userEvent.click(screen.getByRole('button', { name: /войти/i }));
 
     await waitFor(() => {
       expect(loginMock).toHaveBeenCalledWith({
+        apiUrl: 'https://1234.api.green-api.com',
         idInstance: '1101000000',
         apiTokenInstance: 'a'.repeat(30),
       });
@@ -72,6 +77,10 @@ describe('LoginPage', () => {
     );
 
     renderPage();
+    await userEvent.type(
+      screen.getByLabelText(/API URL/i),
+      'https://1234.api.green-api.com'
+    );
     await userEvent.type(screen.getByLabelText(/idInstance/i), '1101000000');
     await userEvent.type(screen.getByLabelText(/apiTokenInstance/i), 'a'.repeat(30));
     await userEvent.click(screen.getByRole('button', { name: /войти/i }));

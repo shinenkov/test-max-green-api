@@ -25,6 +25,7 @@ export class ApiError extends Error {
 }
 
 interface ApiCredentials {
+  apiUrl: string;
   idInstance: string;
   apiTokenInstance: string;
 }
@@ -38,11 +39,12 @@ export async function setSettings(creds: ApiCredentials): Promise<SetSettingsRes
 }
 
 function buildUrl(
-  { idInstance, apiTokenInstance }: ApiCredentials,
+  { apiUrl, idInstance, apiTokenInstance }: ApiCredentials,
   method: string,
   receiptId?: number
 ): string {
-  return `${process.env.VITE_GREEN_API}/waInstance${idInstance}/${method}/${apiTokenInstance}${receiptId ? `/${receiptId}` : ''}`;
+  const base = apiUrl.replace(/\/+$/, '');
+  return `${base}/waInstance${idInstance}/${method}/${apiTokenInstance}${receiptId ? `/${receiptId}` : ''}`;
 }
 
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));

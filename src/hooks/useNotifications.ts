@@ -3,6 +3,7 @@ import { receiveNotification, deleteNotification } from 'api/greenApi';
 import type { Message } from 'types/chat';
 
 interface UseNotificationsParams {
+  apiUrl: string;
   idInstance: string;
   apiTokenInstance: string;
   onNewMessage: (chatId: string, message: Message) => void;
@@ -10,6 +11,7 @@ interface UseNotificationsParams {
 }
 
 export function useNotifications({
+  apiUrl,
   idInstance,
   apiTokenInstance,
   onNewMessage,
@@ -28,7 +30,7 @@ export function useNotifications({
 
     try {
       const notification = await receiveNotification(
-        { idInstance, apiTokenInstance },
+        { apiUrl, idInstance, apiTokenInstance },
         10
       );
 
@@ -36,7 +38,7 @@ export function useNotifications({
 
       const { receiptId, body } = notification;
       const { typeWebhook } = body;
-      await deleteNotification({ idInstance, apiTokenInstance }, receiptId);
+      await deleteNotification({ apiUrl, idInstance, apiTokenInstance }, receiptId);
 
       if (
         typeWebhook === 'incomingMessageReceived' &&

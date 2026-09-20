@@ -8,6 +8,7 @@ describe('authReducer', () => {
   });
 
   const emptyState: AuthState = {
+    apiUrl: '',
     idInstance: '',
     apiTokenInstance: '',
     isAuthenticated: false,
@@ -17,10 +18,15 @@ describe('authReducer', () => {
     it('сохраняет данные в state', () => {
       const state = authReducer(emptyState, {
         type: 'LOGIN',
-        payload: { idInstance: '1101000000', apiTokenInstance: 'token-abc' },
+        payload: {
+          apiUrl: 'https://1234.api.green-api.com',
+          idInstance: '1101000000',
+          apiTokenInstance: 'token-abc',
+        },
       });
 
       expect(state).toEqual({
+        apiUrl: 'https://1234.api.green-api.com',
         idInstance: '1101000000',
         apiTokenInstance: 'token-abc',
         isAuthenticated: true,
@@ -30,7 +36,11 @@ describe('authReducer', () => {
     it('сохраняет данные в sessionStorage', () => {
       authReducer(emptyState, {
         type: 'LOGIN',
-        payload: { idInstance: '1101000000', apiTokenInstance: 'token-abc' },
+        payload: {
+          apiUrl: 'https://1234.api.green-api.com',
+          idInstance: '1101000000',
+          apiTokenInstance: 'token-abc',
+        },
       });
 
       expect(sessionStorage.getItem('idInstance')).toBe('1101000000');
@@ -41,7 +51,11 @@ describe('authReducer', () => {
       const before = { ...emptyState };
       authReducer(emptyState, {
         type: 'LOGIN',
-        payload: { idInstance: '1', apiTokenInstance: 't' },
+        payload: {
+          apiUrl: 'https://1234.api.green-api.com',
+          idInstance: '1',
+          apiTokenInstance: 't',
+        },
       });
       expect(emptyState).toEqual(before);
     });
@@ -50,6 +64,7 @@ describe('authReducer', () => {
   describe('LOGOUT', () => {
     it('очищает state', () => {
       const loggedIn: AuthState = {
+        apiUrl: 'https://1234.api.green-api.com',
         idInstance: '1101000000',
         apiTokenInstance: 'token-abc',
         isAuthenticated: true,
@@ -58,6 +73,7 @@ describe('authReducer', () => {
       const state = authReducer(loggedIn, { type: 'LOGOUT' });
 
       expect(state).toEqual({
+        apiUrl: 'https://1234.api.green-api.com',
         idInstance: '',
         apiTokenInstance: '',
         isAuthenticated: false,
@@ -66,6 +82,7 @@ describe('authReducer', () => {
 
     it('возвращает новый объект, а не мутирует исходный', () => {
       const loggedIn: AuthState = {
+        apiUrl: 'https://1234.api.green-api.com',
         idInstance: '1101000000',
         apiTokenInstance: 'token-abc',
         isAuthenticated: true,
@@ -83,6 +100,7 @@ describe('authReducer', () => {
 
       authReducer(
         {
+          apiUrl: 'https://1234.api.green-api.com',
           idInstance: '1101000000',
           apiTokenInstance: 'token-abc',
           isAuthenticated: true,

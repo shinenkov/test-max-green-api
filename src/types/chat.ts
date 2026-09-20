@@ -18,6 +18,7 @@ export interface Chat {
 }
 
 export interface AuthCredentials {
+  apiUrl: string;
   idInstance: string;
   apiTokenInstance: string;
 }

@@ -1,14 +1,21 @@
 import { useState } from 'react';
 import { Form, Input, Button, Typography, Card, Alert, Divider, Flex } from 'antd';
 import { App } from 'antd';
-import { UserOutlined, KeyOutlined, LinkOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  KeyOutlined,
+  LinkOutlined,
+  GlobalOutlined,
+} from '@ant-design/icons';
 import { useAuth } from 'hooks/useAuth';
 import { setSettings } from 'api/greenApi';
 import type { AuthCredentials } from 'types/chat';
+import { DEFAULT_API_URL } from 'constants/defaultSettings';
 
 const { Title, Text, Link } = Typography;
 
 interface LoginFormValues {
+  apiUrl: string;
   idInstance: string;
   apiTokenInstance: string;
 }
@@ -25,6 +32,7 @@ export function LoginPage() {
 
     try {
       const credentials: AuthCredentials = {
+        apiUrl: values.apiUrl?.trim().replace(/\/+$/, '') ?? DEFAULT_API_URL,
         idInstance: values.idInstance.trim(),
         apiTokenInstance: values.apiTokenInstance.trim(),
       };
@@ -38,7 +46,7 @@ export function LoginPage() {
       const errorMessage =
         err instanceof Error && err.message.includes('401')
           ? 'Неверный idInstance или apiTokenInstance'
-          : 'Не удалось подключиться к GREEN-API. Проверьте данные и попробуйте снова.';
+          : 'Не удалось подключиться к GREEN-API';
       setAuthError(errorMessage);
     } finally {
       setLoading(false);
@@ -88,6 +96,24 @@ export function LoginPage() {
           style={{ maxWidth: '360px', width: '100%' }}
         >
           <div className="animation" />
+          <Form.Item
+            label="API URL"
+            name="apiUrl"
+            rules={[
+              { required: false, message: 'Введите API URL' },
+              {
+                pattern: /^https?:\/\/.+/i,
+                message: 'URL должен начинаться с http:// или https://',
+              },
+            ]}
+          >
+            <Input
+              prefix={<GlobalOutlined />}
+              placeholder="https://1234.api.green-api.com"
+              rootClassName="max-input"
+              variant="borderless"
+            />
+          </Form.Item>
           <Form.Item
             label="idInstance"
             name="idInstance"

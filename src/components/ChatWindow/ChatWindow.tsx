@@ -34,7 +34,7 @@ export function ChatWindow({
   onCloseChat,
 }: ChatWindowProps) {
   const { state } = useAuth();
-  const { idInstance, apiTokenInstance } = state;
+  const { apiUrl, idInstance, apiTokenInstance } = state;
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const prevChatIdRef = useRef<string | null>(null);
@@ -111,6 +111,7 @@ export function ChatWindow({
         </div>
         <footer className="chat-window__footer">
           <MessageInput
+            apiUrl={apiUrl}
             idInstance={idInstance}
             apiTokenInstance={apiTokenInstance}
             chatId={chat.id}

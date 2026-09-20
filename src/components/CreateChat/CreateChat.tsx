@@ -27,7 +27,7 @@ export function CreateChatForm({
   onCancel,
 }: CreateChatFormProps) {
   const { state } = useAuth();
-  const { idInstance, apiTokenInstance } = state;
+  const { apiUrl, idInstance, apiTokenInstance } = state;
   const { message } = App.useApp();
 
   const [form] = Form.useForm<FormValues>();
@@ -51,7 +51,10 @@ export function CreateChatForm({
 
     setLoading(true);
     try {
-      const response = await checkAccount({ idInstance, apiTokenInstance }, phoneNumber);
+      const response = await checkAccount(
+        { apiUrl, idInstance, apiTokenInstance },
+        phoneNumber
+      );
 
       if (!response.exist) {
         addNotExistPhone(phoneNumber);

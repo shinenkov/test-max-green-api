@@ -12,7 +12,11 @@ vi.mock('api/greenApi', async () => {
   };
 });
 
-const creds = { idInstance: '1', apiTokenInstance: 't' };
+const creds = {
+  apiUrl: 'https://1234.api.green-api.com',
+  idInstance: '1',
+  apiTokenInstance: 't',
+};
 
 describe('useChatHistory', () => {
   beforeEach(() => {

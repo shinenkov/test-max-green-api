@@ -12,6 +12,7 @@ interface UseChatHistoryResult {
   appendMessage: (message: Message) => void;
 }
 interface UseChatHistoryParams {
+  apiUrl: string;
   idInstance: string;
   apiTokenInstance: string;
 }
@@ -28,6 +29,7 @@ function mapHistoryItem(item: ChatHistoryItem): Message {
 }
 
 export function useChatHistory({
+  apiUrl,
   idInstance,
   apiTokenInstance,
 }: UseChatHistoryParams): UseChatHistoryResult {
@@ -48,7 +50,7 @@ export function useChatHistory({
 
       try {
         const history = await getChatHistory(
-          { idInstance, apiTokenInstance },
+          { apiUrl, idInstance, apiTokenInstance },
           chatId,
           100,
           controller.signal
@@ -62,7 +64,7 @@ export function useChatHistory({
         if (hasUnread && !hasAttemptedReadChat(chatId)) {
           markReadChatAttempted(chatId);
           const result = await readChat(
-            { idInstance, apiTokenInstance },
+            { apiUrl, idInstance, apiTokenInstance },
             chatId,
             controller.signal
           );
@@ -92,7 +94,7 @@ export function useChatHistory({
         }
       }
     },
-    [idInstance, apiTokenInstance]
+    [apiUrl, idInstance, apiTokenInstance]
   );
 
   const appendMessage = useCallback((message: Message) => {

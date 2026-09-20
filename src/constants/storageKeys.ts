@@ -1,4 +1,5 @@
 export const STORAGE_KEYS = {
+  apiUrl: 'apiUrl',
   idInstance: 'idInstance',
   apiTokenInstance: 'apiTokenInstance',
 } as const;

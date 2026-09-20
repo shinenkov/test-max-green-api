@@ -15,3 +15,5 @@ export const defaultSettings: SetSettingsRequest = {
   editedMessageWebhook: 'yes',
   deletedMessageWebhook: 'yes',
 };
+
+export const DEFAULT_API_URL = import.meta.env.VITE_GREEN_API ?? '';

@@ -13,7 +13,7 @@ import './styles.css';
 
 export function ChatPage() {
   const { state } = useAuth();
-  const { idInstance, apiTokenInstance } = state;
+  const { apiUrl, idInstance, apiTokenInstance } = state;
 
   const isMobile = useMediaQuery(MOBILE_MEDIA_QUERY);
 
@@ -42,6 +42,7 @@ export function ChatPage() {
   const [showCreateForm, setShowCreateForm] = useState(false);
 
   const { messages, loading, error, loadHistory, appendMessage } = useChatHistory({
+    apiUrl,
     idInstance,
     apiTokenInstance,
   });
@@ -64,12 +65,11 @@ export function ChatPage() {
       setChats((prev) => {
         const exists = prev.some((chat) => chat.id === chatId);
 
-        // Новый чат — кто-то написал первым
         if (!exists) {
           const newChat: Chat = {
             id: chatId,
-            phoneNumber: chatId, // в MAX chatId = номер
-            name: message.senderName, // отображаемое имя из уведомления
+            phoneNumber: chatId,
+            name: message.senderName,
             lastMessage: message.text,
             lastMessageTime: message.timestamp,
             unread: activeChatId === chatId ? 0 : 1,
@@ -77,7 +77,6 @@ export function ChatPage() {
           return [...prev, newChat];
         }
 
-        // Чат уже есть — обновляем превью и счётчик
         return prev.map((chat) =>
           chat.id === chatId
             ? {
@@ -94,6 +93,7 @@ export function ChatPage() {
   );
 
   useNotifications({
+    apiUrl,
     idInstance,
     apiTokenInstance,
     onNewMessage: handleNewMessage,

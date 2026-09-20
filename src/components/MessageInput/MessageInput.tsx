@@ -9,6 +9,7 @@ import './styles.css';
 const MAX_LENGTH = 4000;
 
 interface MessageInputProps {
+  apiUrl: string;
   idInstance: string;
   apiTokenInstance: string;
   chatId: string;
@@ -16,6 +17,7 @@ interface MessageInputProps {
 }
 
 export function MessageInput({
+  apiUrl,
   idInstance,
   apiTokenInstance,
   chatId,
@@ -35,7 +37,7 @@ export function MessageInput({
     setSending(true);
     try {
       const response = await sendMessage(
-        { idInstance, apiTokenInstance },
+        { apiUrl, idInstance, apiTokenInstance },
         chatId,
         trimmed
       );

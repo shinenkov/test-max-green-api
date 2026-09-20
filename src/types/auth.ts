@@ -2,6 +2,7 @@ import type { Dispatch } from 'react';
 import type { AuthCredentials } from 'types/chat';
 
 export interface AuthState {
+  apiUrl: string;
   idInstance: string;
   apiTokenInstance: string;
   isAuthenticated: boolean;

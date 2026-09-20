@@ -13,6 +13,7 @@ vi.mock('api/greenApi', async () => {
 });
 
 const props = {
+  apiUrl: 'https://1234.api.green-api.com',
   idInstance: '1',
   apiTokenInstance: 't',
   chatId: 'c',
@@ -46,7 +47,11 @@ describe('MessageInput', () => {
     await userEvent.click(screen.getByRole('button'));
 
     expect(greenApi.sendMessage).toHaveBeenCalledWith(
-      { idInstance: '1', apiTokenInstance: 't' },
+      {
+        apiUrl: 'https://1234.api.green-api.com',
+        idInstance: '1',
+        apiTokenInstance: 't',
+      },
       'c',
       'Привет'
     );
