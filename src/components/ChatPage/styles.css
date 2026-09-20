@@ -1,0 +1,32 @@
+.chat-page {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: 100vh;
+  background: var(--bg);
+}
+
+@media (max-width: 768px) {
+  .chat-page {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chat-sidebar {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text);
+  font-size: 15px;
+}
