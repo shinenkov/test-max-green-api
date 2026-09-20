@@ -26,7 +26,7 @@ npm run dev
 В файле `.env` укажите URL вашего инстанса GREEN-API:
 
 ```env
-VITE_GREEN_API=https://3100.api.green-api.com
+VITE_GREEN_API=https://1234.api.green-api.com
 ```
 
 Хост зависит от вашего инстанса - посмотрите его в [личном кабинете GREEN-API](https://console.green-api.com/).
