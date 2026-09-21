@@ -1,8 +1,7 @@
 import { useReducer, useMemo, type ReactNode } from 'react';
 import { authReducer, initialState } from './authReducer';
 import { AuthContext } from './authContext';
-import type { AuthContextValue } from 'types/auth';
-import type { AuthCredentials } from 'types/chat';
+import type { AuthContextValue, AuthCredentials } from 'types/auth';
 import { clearSessionStorage } from 'utils/sessionCleanup';
 
 interface AuthProviderProps {

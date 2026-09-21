@@ -11,27 +11,27 @@ import { MOBILE_MEDIA_QUERY } from 'constants/breakpoints';
 import { CHATS_STORAGE_KEY } from 'constants/storageKeys';
 import './styles.css';
 
+function loadChatsFromStorage(): Chat[] {
+  const raw = sessionStorage.getItem(CHATS_STORAGE_KEY);
+  if (!raw) return [];
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((item): item is Chat => {
+      if (typeof item !== 'object' || item === null) return false;
+      const chat = item as Record<string, unknown>;
+      return typeof chat.id === 'string' && typeof chat.phoneNumber === 'string';
+    });
+  } catch {
+    return [];
+  }
+}
+
 export function ChatPage() {
   const { state } = useAuth();
   const { apiUrl, idInstance, apiTokenInstance } = state;
 
   const isMobile = useMediaQuery(MOBILE_MEDIA_QUERY);
-
-  function loadChatsFromStorage(): Chat[] {
-    const raw = sessionStorage.getItem(CHATS_STORAGE_KEY);
-    if (!raw) return [];
-    try {
-      const parsed: unknown = JSON.parse(raw);
-      if (!Array.isArray(parsed)) return [];
-      return parsed.filter((item): item is Chat => {
-        if (typeof item !== 'object' || item === null) return false;
-        const chat = item as Record<string, unknown>;
-        return typeof chat.id === 'string' && typeof chat.phoneNumber === 'string';
-      });
-    } catch {
-      return [];
-    }
-  }
 
   const [chats, setChats] = useState<Chat[]>(loadChatsFromStorage);
 
@@ -56,7 +56,7 @@ export function ChatPage() {
     (chatId: string, message: Message) => {
       if (chatId === activeChatId) {
         appendMessage(message);
-        // удаленно так как есть лимит на 100 прочтений в месяц,
+        // удалено так как есть лимит на 100 прочтений в месяц,
         // сейчас readChat происходит только при получении истории
         //  и наличии непрочитанного
         // markChatAsRead(chatId);
@@ -192,7 +192,7 @@ export function ChatPage() {
     />
   );
 
-  const window = activeChat ? (
+  const chatWindow = activeChat ? (
     <ChatWindow
       chat={activeChat}
       messages={messages}
@@ -213,7 +213,9 @@ export function ChatPage() {
   );
 
   if (isMobile) {
-    return <div className="chat-page">{showCreateForm ? form : (window ?? list)}</div>;
+    return (
+      <div className="chat-page">{showCreateForm ? form : (chatWindow ?? list)}</div>
+    );
   }
 
   return (
@@ -223,7 +225,7 @@ export function ChatPage() {
         {showCreateForm ? (
           form
         ) : activeChat ? (
-          window
+          chatWindow
         ) : (
           <div className="empty-state">Выберите чат или создайте новый</div>
         )}

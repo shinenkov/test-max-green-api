@@ -1,4 +1,4 @@
-import { DEFAULT_API_URL } from 'constants/defaultSettings';
+import { DEFAULT_API_URL } from 'constants/defaults';
 import { STORAGE_KEYS } from 'constants/storageKeys';
 import type { AuthState, AuthAction } from 'types/auth';
 

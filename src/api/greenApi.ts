@@ -1,4 +1,4 @@
-import { defaultSettings } from 'constants/defaultSettings';
+import { defaultSettings } from 'constants/defaults';
 import type {
   CheckAccountRequest,
   CheckAccountResponse,
@@ -10,6 +10,7 @@ import type {
   ReadChatResponse,
   SetSettingsRequest,
   SetSettingsResponse,
+  ApiCredentials,
 } from 'types/api';
 
 export class ApiError extends Error {
@@ -22,12 +23,6 @@ export class ApiError extends Error {
     this.status = status;
     this.method = method;
   }
-}
-
-interface ApiCredentials {
-  apiUrl: string;
-  idInstance: string;
-  apiTokenInstance: string;
 }
 
 export async function setSettings(creds: ApiCredentials): Promise<SetSettingsResponse> {
@@ -150,7 +145,7 @@ export async function deleteNotification(
   const res = await fetch(buildUrl(creds, `deleteNotification`, receiptId), {
     method: 'DELETE',
   });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  if (!res.ok) throw new ApiError(res.status, 'deleteNotification');
   return res.json() as Promise<DeleteNotificationResponse>;
 }
 

@@ -16,9 +16,3 @@ export interface Chat {
   lastMessageTime?: number;
   unread: number;
 }
-
-export interface AuthCredentials {
-  apiUrl: string;
-  idInstance: string;
-  apiTokenInstance: string;
-}

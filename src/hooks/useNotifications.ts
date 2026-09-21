@@ -61,7 +61,7 @@ export function useNotifications({
     } finally {
       isPolling.current = false;
     }
-  }, [idInstance, apiTokenInstance]);
+  }, [apiUrl, idInstance, apiTokenInstance]);
 
   useEffect(() => {
     const intervalId = window.setInterval(poll, pollIntervalMs);

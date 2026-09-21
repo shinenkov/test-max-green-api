@@ -1,5 +1,10 @@
 import type { Dispatch } from 'react';
-import type { AuthCredentials } from 'types/chat';
+
+export interface AuthCredentials {
+  apiUrl: string;
+  idInstance: string;
+  apiTokenInstance: string;
+}
 
 export interface AuthState {
   apiUrl: string;

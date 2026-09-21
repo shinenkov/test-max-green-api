@@ -9,8 +9,8 @@ import {
 } from '@ant-design/icons';
 import { useAuth } from 'hooks/useAuth';
 import { setSettings } from 'api/greenApi';
-import type { AuthCredentials } from 'types/chat';
-import { DEFAULT_API_URL } from 'constants/defaultSettings';
+import type { AuthCredentials } from 'types/auth';
+import { DEFAULT_API_URL } from 'constants/defaults';
 
 const { Title, Text, Link } = Typography;
 
@@ -37,16 +37,18 @@ export function LoginPage() {
         apiTokenInstance: values.apiTokenInstance.trim(),
       };
       const res = await setSettings(credentials);
-      if (res.saveSettings) {
-        login(credentials);
-        message.success('Вы вошли в аккаунт');
+      if (!res.saveSettings) {
+        setAuthError('Не удалось сохранить настройки инстанса.');
+        return;
       }
+      login(credentials);
+      message.success('Вы вошли в аккаунт');
     } catch (err) {
       console.error('Login failed:', err);
       const errorMessage =
         err instanceof Error && err.message.includes('401')
           ? 'Неверный idInstance или apiTokenInstance'
-          : 'Не удалось подключиться к GREEN-API';
+          : 'Не удалось войти. Авторизуйте инстанс в личном кабинете GREEN-API.';
       setAuthError(errorMessage);
     } finally {
       setLoading(false);
